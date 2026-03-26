@@ -52,10 +52,14 @@
         .animate-float-pin { animation: float-pin 3s ease-in-out infinite; }
         
         /* Google Translate overriding styles */
-        .goog-te-banner-frame.skiptranslate { display: none !important; }
-        body { top: 0px !important; }
+        .goog-te-banner-frame.skiptranslate, 
+        iframe.goog-te-banner-frame,
+        .VIpgJd-ZVi9od-ORHb-OEVmcd,
         #goog-gt-tt { display: none !important; }
-        .goog-te-spinner-pos { display: none !important; }
+        body { top: 0px !important; position: relative !important; }
+        .goog-tooltip { display: none !important; }
+        .goog-tooltip:hover { display: none !important; }
+        .goog-text-highlight { background-color: transparent !important; border: none !important; box-shadow: none !important; }
         
         /* Color Correction Mode */
         body.color-corrected {
@@ -1819,7 +1823,9 @@
                 const mobileBtn = document.getElementById('global-voice-btn-mobile');
                 if(desktopBtn) desktopBtn.innerHTML = '🔴';
                 if(mobileBtn) mobileBtn.innerHTML = '🔴 Listening...';
-                speakFeedback("Listening for command.");
+                
+                // [Inference] The browser's text-to-speech engine playing audio at the exact same time the microphone starts listening can cause the browser to instantly abort the listening session to prevent an audio feedback loop.
+                console.log("Microphone actively listening for commands...");
             };
 
             rec.onresult = function(event) {
@@ -1969,6 +1975,7 @@ Where "target_view" must be exactly one of these strings: "home", "hotels", "caf
         // ------------------------------------
         let isReadAloudActive = false;
         let currentHoverElement = null;
+        let currentSpeechLang = 'en-US'; // [Speculation] Default language tracker for TTS
 
         function toggleReadAloud() {
             if (!('speechSynthesis' in window)) {
@@ -1996,19 +2003,44 @@ Where "target_view" must be exactly one of these strings: "home", "hotels", "caf
         document.addEventListener('mouseover', function(e) {
             if (!isReadAloudActive) return;
             
-            const validTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'A', 'LABEL', 'LI'];
-            const target = e.target;
+            // [Inference] Added 'FONT' because Google Translate wraps translated strings in <font> tags.
+            const validTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'A', 'LABEL', 'LI', 'FONT'];
+            let target = e.target;
 
-            if (validTags.includes(target.tagName)) {
-                if (currentHoverElement !== target) {
-                    currentHoverElement = target;
-                    const textToRead = target.innerText || target.textContent;
+            // Traverse up slightly to catch text inside nested tags (like an icon inside a button or <font> inside a <p>)
+            let matchedTarget = null;
+            while (target && target !== document.body) {
+                if (validTags.includes(target.tagName)) {
+                    matchedTarget = target;
+                    break;
+                }
+                target = target.parentElement;
+            }
+
+            if (matchedTarget) {
+                if (currentHoverElement !== matchedTarget) {
+                    currentHoverElement = matchedTarget;
+                    const textToRead = matchedTarget.innerText || matchedTarget.textContent;
                     
                     if (textToRead && textToRead.trim() !== '') {
                         window.speechSynthesis.cancel(); // Stop previous speech
                         const utterance = new SpeechSynthesisUtterance(textToRead.trim());
+                        utterance.lang = currentSpeechLang; // Dynamically uses 'ta-IN', 'hi-IN', etc.
+                        
+                        // [Inference] Explicitly search and assign the specific voice object from the OS
+                        const voices = window.speechSynthesis.getVoices();
+                        const specificVoice = voices.find(voice => voice.lang === currentSpeechLang || voice.lang.startsWith(currentSpeechLang.split('-')[0]));
+                        if (specificVoice) {
+                            utterance.voice = specificVoice;
+                        }
+
                         utterance.rate = 1.0; 
-                        window.speechSynthesis.speak(utterance);
+                        
+                        try {
+                            window.speechSynthesis.speak(utterance);
+                        } catch (err) {
+                            console.error("Speech synthesis failed:", err);
+                        }
                     }
                 }
             }
@@ -2201,7 +2233,7 @@ Where "target_view" must be exactly one of these strings: "home", "hotels", "caf
         // ------------------------------------
         // GEMINI API & CHATBOT
         // ------------------------------------
-        // You can remove the old const apiKey = ""; line completely.
+       // You can remove the old const apiKey = ""; line completely.
 
 async function fetchGeminiAPI(prompt, retries = 5) {
     // Point to your Vercel serverless function
@@ -2500,6 +2532,16 @@ async function fetchGeminiAPI(prompt, retries = 5) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(lastTamilTranslation);
                 utterance.lang = 'ta-IN'; 
+                
+                // [Inference] Explicitly hunt for a Tamil voice pack on the local machine
+                const voices = window.speechSynthesis.getVoices();
+                const tamilVoice = voices.find(voice => voice.lang === 'ta-IN' || voice.lang.startsWith('ta'));
+                if (tamilVoice) {
+                    utterance.voice = tamilVoice;
+                } else {
+                    console.warn("No Tamil voice pack found on this operating system.");
+                }
+
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -2520,6 +2562,16 @@ async function fetchGeminiAPI(prompt, retries = 5) {
                 selectField.dispatchEvent(new Event("change"));
                 const display = document.getElementById('current-lang-display');
                 if (display) display.innerText = displayLabel;
+
+                // [Inference] Update the Read Aloud language code mappings
+                const langMap = {
+                    'en': 'en-US',
+                    'ta': 'ta-IN',
+                    'hi': 'hi-IN',
+                    'ml': 'ml-IN'
+                };
+                currentSpeechLang = langMap[langCode] || 'en-US';
+
             } else {
                 console.warn("Google Translate widget not ready or blocked by CORS/Sandbox.");
             }
