@@ -97,6 +97,16 @@
                     🌓
                 </button>
 
+                <!-- Voice Assistant Toggle (Desktop) -->
+                <button id="global-voice-btn" onclick="toggleGlobalVoiceCommand()" class="bg-[#F5EFE6] border border-[#DBCFBC] text-stone-800 px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold shadow-sm transition-transform hover:-translate-y-0.5 text-xs md:text-sm hidden sm:flex items-center gap-2" title="Voice Commands">
+                    🎙️
+                </button>
+
+                <!-- Read Aloud Toggle (Desktop) -->
+                <button id="read-aloud-btn" onclick="toggleReadAloud()" class="bg-[#F5EFE6] border border-[#DBCFBC] text-stone-800 px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold shadow-sm transition-transform hover:-translate-y-0.5 text-xs md:text-sm hidden sm:flex items-center gap-2" title="Read Text on Hover">
+                    🔊
+                </button>
+
                 <!-- Custom Translation Dropdown -->
                 <div class="relative group hidden sm:block">
                     <button class="bg-[#F5EFE6] border border-[#DBCFBC] text-stone-800 px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold shadow-sm flex items-center gap-2 hover:bg-[#DBCFBC] transition-colors text-xs md:text-sm">
@@ -137,6 +147,12 @@
                  <div class="pt-4 border-t border-[#DBCFBC] flex flex-col gap-3 sm:hidden">
                      <button onclick="toggleColorCorrection(); toggleMobileMenu()" class="bg-white border border-[#DBCFBC] text-stone-800 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-sm">
                         🌓 Toggle Contrast
+                     </button>
+                     <button onclick="toggleGlobalVoiceCommand(); toggleMobileMenu()" class="bg-white border border-[#DBCFBC] text-stone-800 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-sm" id="global-voice-btn-mobile">
+                        🎙️ Voice Command
+                     </button>
+                     <button onclick="toggleReadAloud(); toggleMobileMenu()" class="bg-white border border-[#DBCFBC] text-stone-800 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-sm" id="read-aloud-btn-mobile">
+                        🔊 Read Aloud (Hover)
                      </button>
                      <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mt-2">Language</p>
                      <div class="grid grid-cols-2 gap-2">
@@ -1429,824 +1445,7 @@
             </div>
             
             <div class="relative w-full h-full bg-stone-900 overflow-hidden">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252904.5369650058!2d77.2917!3d8.0883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b04ed3d2a08d28d%3A0x7d4982a5c5d5a71!2sKanyakumari%20District%2C%20Tamil%20Nadu!5e1!3m2!1sen!2sin!4v1710670000000!5m2!1sen!2sin" class="absolute inset-0 w-full h-full opacity-80 pointer-events-none z-10 filter contrast-125 saturate-110" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                
-                <!-- Live Routing Portal (Map Overlay) -->
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-xl pointer-events-auto">
-                    <div class="bg-[#F5EFE6]/95 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-2xl border border-[#DBCFBC] flex flex-col md:flex-row gap-3 items-center">
-                        <div class="flex-1 w-full">
-                            <p class="text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-1 pl-1">Live Routing Portal</p>
-                            <select id="route-destination" class="w-full px-4 py-2.5 rounded-xl border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-bold text-stone-800 shadow-inner">
-                                <option value="Vivekananda Rock Memorial, Kanyakumari">Vivekananda Rock Memorial</option>
-                                <option value="Sunset Point Beach, Kanyakumari">Sunset Point Beach</option>
-                                <option value="Padmanabhapuram Palace, Kanyakumari">Padmanabhapuram Palace</option>
-                                <option value="Thirparappu Falls, Kanyakumari">Thirparappu Falls</option>
-                                <option value="Vattakottai Fort, Kanyakumari">Vattakottai Fort</option>
-                                <option value="Mathoor Aqueduct, Kanyakumari">Mathoor Aqueduct</option>
-                                <option value="Our Lady of Ransom Church, Kanyakumari">Ransom Church</option>
-                                <option value="Chitharal Jain Monuments, Kanyakumari">Chitharal Monuments</option>
-                                <option value="Muttom Beach, Kanyakumari">Muttom Beach</option>
-                            </select>
-                        </div>
-                        <button onclick="getRouteTo(document.getElementById('route-destination').value)" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-black px-6 py-3.5 rounded-xl text-sm shadow-lg transition-transform hover:-translate-y-0.5 whitespace-nowrap flex items-center justify-center gap-2 mt-auto">
-                            🗺️ Get Route
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Booking Modals & Payment Gateway -->
-    <div id="guideBookingModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/80 backdrop-blur-md p-4 md:p-6 transition-opacity duration-300 opacity-0">
-        <div id="guideBookingModalContent" class="bg-[#EAE0D5] rounded-3xl w-full max-w-2xl overflow-hidden relative transform transition-transform duration-300 scale-95 flex flex-col border border-[#DBCFBC]">
-            <div class="p-6 md:p-8 border-b border-[#DBCFBC] flex justify-between items-center bg-green-100/50">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-black text-stone-900">Schedule Guide</h2>
-                    <p class="text-sm font-bold text-stone-600 mt-1">Booking with: <span id="booking-guide-name" class="text-green-700"></span> (<span id="booking-guide-rate"></span>/half-day)</p>
-                </div>
-                <button onclick="closeModal('guideBookingModal')" class="w-10 h-10 bg-[#F5EFE6] hover:bg-[#DBCFBC] rounded-full flex items-center justify-center transition-colors">✕</button>
-            </div>
-            <div class="p-6 md:p-8">
-                <form onsubmit="submitBookingRequest(event)" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Date</label>
-                            <input type="date" id="book-date" required class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-green-500 outline-none text-sm font-medium">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Time / Duration</label>
-                            <select id="book-time" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-green-500 outline-none text-sm font-medium">
-                                <option>Morning (Half Day)</option>
-                                <option>Afternoon (Half Day)</option>
-                                <option>Full Day</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Meeting Point</label>
-                        <select id="book-location" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-green-500 outline-none text-sm font-medium">
-                            <option>Vivekananda Rock Ferry Terminal</option>
-                            <option>My Hotel / Accommodation</option>
-                            <option>Padmanabhapuram Palace Entrance</option>
-                            <option>Sunset Point Beach</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Accessibility Notes & Requirements</label>
-                        <textarea id="book-notes" rows="2" placeholder="E.g., Require ISL translation, wheelchair pacing needed..." class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-green-500 outline-none text-sm font-medium resize-none"></textarea>
-                    </div>
-                    <button type="submit" class="w-full mt-2 bg-stone-900 hover:bg-stone-800 text-white font-black py-4 rounded-xl shadow-lg transition-colors text-lg flex items-center justify-center gap-2">
-                        Proceed to Payment ➔
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Simulated Payment Modal -->
-    <div id="paymentModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/90 backdrop-blur-md p-4 md:p-6 transition-opacity duration-300 opacity-0">
-        <div id="paymentModalContent" class="bg-white rounded-3xl w-full max-w-md overflow-hidden relative transform transition-transform duration-300 scale-95 flex flex-col shadow-2xl">
-            <div class="p-6 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl">🔒</span>
-                    <h2 class="text-xl font-black text-slate-900">Secure Checkout</h2>
-                </div>
-                <button onclick="closeModal('paymentModal')" class="w-8 h-8 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors font-bold text-slate-500">✕</button>
-            </div>
-            <div class="p-6 md:p-8">
-                <div class="text-center mb-6">
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Due</p>
-                    <h3 id="pay-amount" class="text-4xl font-black text-slate-900">₹0</h3>
-                </div>
-                <form onsubmit="processPayment(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Card Number</label>
-                        <input type="text" required placeholder="XXXX XXXX XXXX XXXX" class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-blue-500 outline-none font-mono tracking-widest text-sm">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Expiry</label>
-                            <input type="text" required placeholder="MM/YY" class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-blue-500 outline-none font-mono tracking-widest text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">CVV</label>
-                            <input type="password" required placeholder="•••" maxlength="3" class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-blue-500 outline-none font-mono tracking-widest text-sm text-center">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg transition-colors text-lg">
-                        Confirm Payment
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI Travel Assistant Chatbot Modal -->
-    <div id="itineraryModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/80 backdrop-blur-md p-4 md:p-6 transition-opacity duration-300 opacity-0">
-        <div id="itineraryModalContent" class="bg-[#EAE0D5] rounded-3xl w-full max-w-3xl overflow-hidden relative transform transition-transform duration-300 scale-95 flex flex-col h-[85vh] border border-[#DBCFBC] shadow-2xl">
-            <div class="p-6 md:p-8 border-b border-[#DBCFBC] flex justify-between items-center bg-gradient-to-r from-amber-100/50 to-transparent shrink-0">
-                <div>
-                    <span class="bg-stone-900 text-amber-400 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-sm mb-2 inline-flex items-center gap-1"><span>VAISH'S AI</span>✨</span>
-                    <h2 class="text-2xl md:text-3xl font-black text-stone-900">AI Travel Assistant</h2>
-                </div>
-                <button onclick="closeModal('itineraryModal')" class="w-10 h-10 bg-[#F5EFE6] hover:bg-[#DBCFBC] text-stone-900 rounded-full flex items-center justify-center text-xl transition-colors border border-[#DBCFBC] shadow-sm shrink-0">✕</button>
-            </div>
-            <div id="chat-history" class="p-4 md:p-6 overflow-y-auto custom-scroll flex-1 flex flex-col gap-4 bg-white/40">
-                <div class="flex gap-3 md:gap-4 max-w-[90%] md:max-w-[85%]">
-                    <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white shrink-0 shadow-md">✨</div>
-                    <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-amber-200 text-stone-800 text-sm md:text-base leading-relaxed">
-                        Hi! I'm your TNWISE AI Travel Assistant. I can help you plan a customized, accessible itinerary for Kanyakumari. <br><br>Tell me about your trip—how many days are you staying, and do you have any specific mobility or sensory requirements?
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 md:p-6 border-t border-[#DBCFBC] bg-[#F5EFE6] shrink-0">
-                <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-3 relative">
-                    <input type="text" id="chat-input" placeholder="E.g., I need a 2-day wheelchair-friendly plan..." autocomplete="off" class="flex-1 px-5 py-4 rounded-full border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-amber-500 outline-none text-sm font-medium shadow-inner transition-shadow">
-                    <button type="submit" id="chat-submit-btn" class="w-14 h-14 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-400 flex items-center justify-center shadow-lg transition-transform hover:-translate-y-0.5 shrink-0">
-                        <svg class="w-6 h-6 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Guide Join Modal -->
-    <div id="guideJoinModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/80 backdrop-blur-md p-4 md:p-6 transition-opacity duration-300 opacity-0">
-        <div id="guideJoinModalContent" class="bg-[#EAE0D5] rounded-3xl w-full max-w-3xl overflow-hidden relative transform transition-transform duration-300 scale-95 flex flex-col border border-[#DBCFBC] max-h-[95vh]">
-            <div class="p-6 md:p-8 border-b border-[#DBCFBC] flex justify-between items-center bg-stone-900 shrink-0">
-                <div>
-                    <span class="bg-amber-500 text-stone-900 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-sm mb-2 inline-block">TNWISE Network</span>
-                    <h2 class="text-2xl md:text-3xl font-black text-white">Guide Registration</h2>
-                </div>
-                <button onclick="closeModal('guideJoinModal')" class="w-10 h-10 bg-stone-800 hover:bg-stone-700 text-white rounded-full flex items-center justify-center transition-colors">✕</button>
-            </div>
-            <div class="p-6 md:p-8 overflow-y-auto custom-scroll flex-1">
-                <form id="guideJoin-form" onsubmit="submitGuideApplication(event)" class="space-y-5">
-                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                        <div class="w-20 h-20 bg-stone-100 rounded-full border-2 border-dashed border-stone-400 flex items-center justify-center overflow-hidden shrink-0" id="photo-preview-container"><span class="text-3xl opacity-30">👤</span></div>
-                        <div class="flex-1">
-                            <label class="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-1.5">Upload Profile Photo</label>
-                            <input type="file" id="join-photo" accept="image/*" onchange="previewImage(event)" class="w-full text-sm text-stone-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-stone-900 file:text-white hover:file:bg-stone-800 cursor-pointer transition-colors">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" id="join-name" required placeholder="Full Name" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white">
-                        <input type="tel" id="join-phone" required placeholder="Phone Number" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white">
-                        <input type="number" id="join-exp" required min="0" placeholder="Experience (Years)" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white">
-                        <input type="text" id="join-license" required placeholder="Govt License ID" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white">
-                        <input type="text" id="join-lang" required placeholder="Spoken Languages" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white">
-                        <input type="text" id="join-tags" required placeholder="Specialty Tags" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white">
-                    </div>
-                    <textarea id="join-bio" rows="3" required placeholder="Professional Biography" class="w-full px-4 py-3 rounded-xl border border-[#DBCFBC] bg-white resize-none"></textarea>
-                    <button type="submit" class="w-full bg-stone-900 hover:bg-stone-800 text-white font-black py-4 rounded-xl shadow-lg text-lg">Submit Application ➔</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ========================================== -->
-    <!-- DETAIL VIEWS                               -->
-    <!-- ========================================== -->
-    
-    <!-- Detail 1: Vivekananda Rock -->
-    <div id="rockDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://media.tripinvites.com/places/kanyakumari/vivekananda-rock-memorial/vivekananda-rock-memorial-featured.jpg" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Vivekananda Rock Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-amber-500 text-stone-900 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Major Tourist Hub</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Vivekananda Rock Memorial</h2>
-                        <button onclick="getRouteTo('Vivekananda Rock Memorial, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">⛴️</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Ferry Only</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">High</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-red-800 text-base mt-1">High Noise</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Ramped Dock</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">The main memorial sits on an offshore rock requiring a 15-minute ferry ride. The mainland boarding dock features a standardized wheelchair ramp. However, accessing the upper meditation hall requires navigating steep stone steps. There are limited shaded areas during peak afternoon hours.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-amber-500 text-stone-900 rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Haptic Path Integration:</strong> Proposed installation of tactile paving from the ferry drop-off directly to the main staircase.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 2: Palace -->
-    <div id="palaceDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjw6LKwe5lFkRi6ovhmBWp0aCEWk571B2oN_BxBtZjjlVDPBkv8RZtHo2DHfXK3SdoryytXhLwtN-3fCaXDx3t_ROVW7LzRfmVcqrTSwCioHnSXr3Zx-MsYSR_fxOAP0zJmW9uHCLbKlK0hQJZR4-maRdcWi9OI4f9hChvmqAHApPpeEpwjY2hQdRjE/s1600/IMG-20230311-WA0214.jpg" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Padmanabhapuram Palace Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-blue-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Heritage Hub</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Padmanabhapuram Palace</h2>
-                        <button onclick="getRouteTo('Padmanabhapuram Palace, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Road Network</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">Moderate</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Low / Quiet</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-red-800 text-base mt-1">Steep Stairs</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">The 16th-century wooden palace presents specific mobility challenges. While the ground floor courtyards and viewing areas are relatively flat, navigating between inner chambers requires crossing raised wooden thresholds. Upper floors are only accessible via very steep, narrow wooden staircases.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Tactile Navigation Lines:</strong> Installation of non-intrusive tactile guides across the main courtyards to assist visually impaired visitors.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 3: Waterfalls -->
-    <div id="waterfallDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://pbs.twimg.com/media/FLSQfV9aIAIvtP5.jpg" onerror="this.src='https://images.unsplash.com/photo-1432405972618-c600f487e6ae?auto=format&fit=crop&w=1200&q=80'" alt="Thirparappu Waterfalls Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-teal-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Nature Hub</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Thirparappu Falls</h2>
-                        <button onclick="getRouteTo('Thirparappu Falls, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Road Network</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">Very High</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-red-800 text-base mt-1">High Noise</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-red-800 text-base mt-1">Uneven Rocks</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">These man-made waterfalls drop from a height of approximately 50 feet. While the approach and upper park areas have paved pathways, reaching the lower water beds requires navigating highly uneven, wet, and slippery rocks. The sensory load is very high due to the constant, loud roaring of the water.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-teal-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Accessible Viewing Deck:</strong> Implementation of a slip-resistant, flat viewing platform allowing wheelchair users clear sightlines of the falls without descending to the rocks.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 4: Vattakottai -->
-    <div id="vattakottaiDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://th.bing.com/th/id/R.3f9ea64101d5d33b7a92314573dffaa4?rik=%2bxLKg95y5mBn4Q&riu=http%3a%2f%2fwww.emperortraveline.com%2fwp-content%2fuploads%2f2021%2f01%2fVattakottai-Fort-in-Kanyakumari.jpg&ehk=H1cZgGS2ALcG%2bEQa07gIyp2XI616lpjIr2s%2fWZRL%2fB4%3d&risl=&pid=ImgRaw&r=0" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Vattakottai Fort Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-emerald-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Historic Seacoast Hub</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Vattakottai Fort</h2>
-                        <button onclick="getRouteTo('Vattakottai Fort, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Road Network</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">Low</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-green-800 text-base mt-1">High Wind</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">Ramps & Stairs</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">This 18th-century circular fort is built directly on the sea. While the inner courtyard is spacious and flat, accessing the upper ramparts for ocean views requires climbing original, steep stone steps. Wind exposure is very high at the top.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-emerald-500 text-stone-900 rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Heritage-Compliant Ramps:</strong> Installation of temporary, non-destructive wooden ramps allowing wheelchair access to specific lower ramparts.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 5: Beach -->
-    <div id="beachDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://tse3.mm.bing.net/th/id/OIP.PBRogScm5_08xYpT6e0iBwHaE7?rs=1&pid=ImgDetMain&o=7&rm=3" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Sunset Point Beach Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-orange-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Coastal Hub</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Sunset Point Beach</h2>
-                        <button onclick="getRouteTo('Sunset Point Beach, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚶</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Pedestrian</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-red-800 text-base mt-1">Very High</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">High Activity</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-red-800 text-base mt-1">Deep Sand</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">The beach features deep, loose sand that poses a significant barrier for standard wheelchairs and those with mobility impairments. Crowd density peaks significantly 30 minutes before sunset, causing high sensory overload.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-orange-500 text-stone-900 rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Mobi-Mat Pathways:</strong> Deployment of roll-out accessibility mats extending from the paved walkway down toward the shoreline for wheelchair access.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 6: Mathoor -->
-    <div id="mathoorDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://www.kanyakumarians.com/data/catalog/mathur/Sheehan-Wesley.jpg" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Mathoor Aqueduct Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-indigo-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Engineering Marvel</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Mathoor Aqueduct</h2>
-                        <button onclick="getRouteTo('Mathoor Aqueduct, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Road Network</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">Moderate</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Low / Calm</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-red-800 text-base mt-1">High Stairs</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">Spanning the Pahrali river, this is one of the longest and highest aqueducts in South Asia. Reaching the walkable trough requires climbing a significant flight of steep concrete stairs. The walkway itself is narrow, and the extreme height may trigger vertigo.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-indigo-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>VR Accessibility Kiosk:</strong> For users unable to climb the stairs, a ground-level Virtual Reality kiosk is proposed to provide an immersive 360-degree experience of walking the bridge.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 7: Church -->
-    <div id="churchDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://www.trawell.in/admin/images/upload/117790486Our-lady-of-ransom-church.jpg" onerror="this.src='https://images.unsplash.com/photo-1548625361-ec85cb039d5e?q=80&w=1200&auto=format&fit=crop'" alt="Our Lady of Ransom Church Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-pink-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Architectural Hub</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Our Lady of Ransom</h2>
-                        <button onclick="getRouteTo('Our Lady of Ransom Church, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Road Network</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Low to Mod.</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Quiet / Calm</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Mostly Flat</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">A majestic 15th-century Gothic-style Catholic church located near the shore. The primary grounds are paved and flat, allowing relatively easy wheelchair navigation. The cavernous interior provides a very cool, low-sensory, and quiet environment compared to the bustling beach nearby.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Architectural Audio Guides:</strong> GPS-triggered descriptive audio detailing the intricate wooden carvings and Gothic spires for the visually impaired.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 8: Chitharal -->
-    <div id="chitharalDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://s7ap1.scene7.com/is/image/incredibleindia/chitharal-jain-monuments-kanyakumari-tamil-nadu-1-attr-hero?qlt=82&ts=1726654234505" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Chitharal Monuments Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-stone-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Ancient Hill Site</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Chitharal Monuments</h2>
-                        <button onclick="getRouteTo('Chitharal Jain Monuments, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Rural Road</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Very Low</p>
-                        </div>
-                        <div class="bg-green-100 p-4 rounded-xl border border-green-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-green-800 text-base mt-1">Silent</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-red-800 text-base mt-1">Steep Trek</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">These 9th-century rock-cut Jain carvings are situated on a hill requiring a demanding 20-30 minute uphill trek. The pathway is unpaved, uneven, and contains steep rock stairs, making it completely inaccessible for wheelchair users. However, it is an ideal low-sensory retreat away from crowds.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-stone-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Base Camp 3D Mapping:</strong> Introduction of a digital, interactive 3D model of the carvings at the base of the hill for those physically unable to make the ascent.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail 9: Muttom Beach -->
-    <div id="muttomDetailView" class="hidden flex-1 w-full flex-col pt-24 pb-12 px-6 bg-[#EAE0D5]">
-        <div class="max-w-5xl mx-auto w-full reveal-fade-up">
-            <button onclick="switchView('home')" class="mb-6 flex items-center gap-2 text-stone-600 hover:text-stone-900 font-bold uppercase tracking-widest text-sm bg-[#F5EFE6] px-4 py-2 rounded-full border border-[#DBCFBC] w-max shadow-sm transition-transform hover:-translate-y-0.5">
-                ← Back to Places
-            </button>
-            <div class="bg-[#F5EFE6] rounded-3xl w-full overflow-hidden shadow-2xl relative flex flex-col border border-[#DBCFBC]">
-                <div class="relative h-64 md:h-[400px] w-full shrink-0">
-                    <img src="https://3.bp.blogspot.com/-ZVPzwH7SRnA/Wb2CdMhCXMI/AAAAAAAA7tc/S7ecJyoIh70HR4EN3Hl0qA530kK5K7bGwCLcBGAs/s1600/Muttom_Beach.JPG" onerror="this.src='https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?q=80&w=1200&auto=format&fit=crop'" alt="Muttom Beach Close Up" class="absolute inset-0 w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#EAE0D5] via-transparent to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 pr-8">
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            <span class="bg-cyan-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Rocky Coastal Site</span>
-                        </div>
-                        <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Muttom Beach</h2>
-                        <button onclick="getRouteTo('Muttom Beach, Kanyakumari')" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-xl shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2 text-sm w-max border border-indigo-400">
-                            🗺️ Navigate Here
-                        </button>
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 bg-[#EAE0D5]">
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div class="bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🚌</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Access</span>
-                            <p class="font-bold text-stone-900 text-base mt-1">Road Network</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">👥</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Crowd</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">Moderate</p>
-                        </div>
-                        <div class="bg-amber-100 p-4 rounded-xl border border-amber-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">🔊</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Sensory</span>
-                            <p class="font-bold text-amber-800 text-base mt-1">High Waves</p>
-                        </div>
-                        <div class="bg-red-100 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                            <span class="block text-3xl mb-2">♿</span>
-                            <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Mobility</span>
-                            <p class="font-bold text-red-800 text-base mt-1">Rocky / Cliffs</p>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">Topographical Details</h4>
-                        <p class="text-stone-700 text-base md:text-lg leading-relaxed">Famous for its massive rocky outcrops and the century-old colonial lighthouse. The beach itself is hazardous for swimming and heavily uneven due to large stones. The cliffside walkways offer beautiful views but have steep drop-offs and narrow dirt paths.</p>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-stone-900 mb-4 border-b border-[#DBCFBC] pb-2">TNWISE Infrastructure Upgrades</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-4 bg-[#F5EFE6] p-4 rounded-xl border border-[#DBCFBC] shadow-sm">
-                                <div class="bg-cyan-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mt-0.5 shrink-0">✓</div>
-                                <p class="text-base text-stone-800"><strong>Tactile Safety Fencing:</strong> Upgrading the cliffside viewpoints with waist-high tactile railings to prevent accidental falls and guide visually impaired users safely.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ========================================== -->
-    <!-- GLOBAL MODALS & UTILITIES                  -->
-    <!-- ========================================== -->
-
-    <!-- Platform Selection Modal -->
-    <div id="platformModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/80 backdrop-blur-md p-4 md:p-6 transition-opacity duration-300 opacity-0">
-        <div id="platformModalContent" class="bg-[#EAE0D5] rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl relative transform transition-transform duration-300 scale-95 flex flex-col border border-[#DBCFBC] max-h-[90vh]">
-            <div class="p-6 md:p-8 border-b border-[#DBCFBC] flex justify-between items-center bg-[#F5EFE6]/50">
-                <div>
-                    <span class="bg-amber-500 text-stone-900 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-sm mb-2 inline-block">TNWISE Portal</span>
-                    <h2 class="text-2xl md:text-3xl font-black text-stone-900">Select a Module</h2>
-                </div>
-                <button onclick="closeModal('platformModal')" class="w-10 h-10 bg-[#F5EFE6] hover:bg-[#DBCFBC] text-stone-900 rounded-full flex items-center justify-center text-xl shadow-sm shrink-0">✕</button>
-            </div>
-            <div class="p-6 md:p-8 overflow-y-auto custom-scroll">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <button onclick="closeModal('platformModal'); setTimeout(() => openModal('sensoryMapModal'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-amber-500 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-stone-900 mb-2">Interactive Sensory Map</h3></div>
-                        <span class="text-amber-700 font-bold text-sm mt-4">Launch Map ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('hotels'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-blue-500 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-stone-900 mb-2">Accessible Hotels</h3></div>
-                        <span class="text-blue-700 font-bold text-sm mt-4">Search Hotels ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('travel'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-indigo-500 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-stone-900 mb-2">Transport Booking</h3></div>
-                        <span class="text-indigo-700 font-bold text-sm mt-4">TNSTC & Trains ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('guides'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-green-500 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-stone-900 mb-2">Inclusive Guide Network</h3></div>
-                        <span class="text-green-700 font-bold text-sm mt-4">Find Guides ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('emergency'), 300)" class="text-left group bg-red-50 border border-red-200 hover:border-red-600 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-red-900 mb-2">Emergency Services</h3></div>
-                        <span class="text-red-700 font-bold text-sm mt-4">Get Help ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('translator'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-amber-600 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-amber-900 mb-2">Live Voice Translator</h3></div>
-                        <span class="text-amber-700 font-bold text-sm mt-4">Translate to Tamil ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('guideDashboard'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-teal-600 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
-                        <div><h3 class="text-xl font-bold text-teal-900 mb-2">Guide Dashboard</h3></div>
-                        <span class="text-teal-700 font-bold text-sm mt-4">Manage Tours ➔</span>
-                    </button>
-                    <button onclick="closeModal('platformModal'); setTimeout(() => openModal('itineraryModal'), 300)" class="text-left group bg-gradient-to-br from-amber-100 to-[#F5EFE6] border border-amber-300 hover:border-amber-600 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px] lg:col-span-2 overflow-hidden relative">
-                        <div class="absolute -right-4 -top-4 opacity-10 text-6xl group-hover:scale-110 transition-transform duration-500">✨</div>
-                        <div><h3 class="text-xl font-black text-amber-900 mb-2">AI Travel Assistant</h3></div>
-                        <span class="text-amber-700 font-black text-sm mt-4 relative z-10">✨ Start Chatting ➔</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sensory Map Modal (Upgraded with Live Location Routing) -->
-    <div id="sensoryMapModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/90 backdrop-blur-xl p-0 md:p-6 transition-opacity duration-300 opacity-0">
-        <div id="sensoryMapModalContent" class="bg-stone-900 md:rounded-3xl w-full h-full md:h-[90vh] max-w-6xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] relative transform transition-transform duration-300 scale-95 flex flex-col border border-stone-700">
-            <div class="absolute top-0 left-0 w-full z-20 bg-gradient-to-b from-stone-900/90 to-transparent p-6 flex justify-between items-start pointer-events-none">
-                <div class="pointer-events-auto">
-                    <h2 class="text-2xl md:text-3xl font-black text-white flex items-center gap-3"><span class="text-amber-500 animate-pulse">📡</span> Live Sensory Map</h2>
-                    <p class="text-stone-300 text-xs md:text-sm font-medium mt-1 max-w-sm">Topographical & crowd density tracking. Tap any pulsing location marker to view its accessibility details.</p>
-                </div>
-                <button onclick="closeModal('sensoryMapModal')" class="pointer-events-auto w-10 h-10 md:w-12 md:h-12 bg-stone-800 hover:bg-stone-700 text-white rounded-full flex items-center justify-center text-xl transition-colors border border-stone-600 shadow-lg shrink-0">✕</button>
-            </div>
-            
-            <div class="relative w-full h-full bg-stone-900 overflow-hidden">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252904.5369650058!2d77.2917!3d8.0883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b04ed3d2a08d28d%3A0x7d4982a5c5d5a71!2sKanyakumari%20District%2C%20Tamil%20Nadu!5e1!3m2!1sen!2sin!4v1710670000000!5m2!1sen!2sin" class="absolute inset-0 w-full h-full opacity-80 pointer-events-none z-10 filter contrast-125 saturate-110" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                
-                <!-- Map Pins -->
-                <div class="absolute group z-20" style="top: 88%; left: 82%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('rockDetail'), 300)" class="relative z-10 w-6 h-6 md:w-8 md:h-8 bg-red-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_20px_rgba(239,68,68,0.9)] animate-float-pin hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 86%; left: 80%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('beachDetail'), 300)" class="relative z-10 w-5 h-5 md:w-7 md:h-7 bg-red-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(239,68,68,0.8)] animate-float-pin delay-100 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 45%; left: 35%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('palaceDetail'), 300)" class="relative z-10 w-6 h-6 md:w-8 md:h-8 bg-amber-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(245,158,11,0.8)] animate-float-pin delay-200 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 25%; left: 25%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('waterfallDetail'), 300)" class="relative z-10 w-6 h-6 md:w-8 md:h-8 bg-red-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_20px_rgba(239,68,68,0.8)] animate-float-pin delay-300 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 78%; left: 84%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('vattakottaiDetail'), 300)" class="relative z-10 w-5 h-5 md:w-7 md:h-7 bg-green-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(34,197,94,0.8)] animate-float-pin delay-100 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 38%; left: 32%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('mathoorDetail'), 300)" class="relative z-10 w-5 h-5 md:w-7 md:h-7 bg-amber-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(245,158,11,0.8)] animate-float-pin delay-200 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 85%; left: 81%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('churchDetail'), 300)" class="relative z-10 w-5 h-5 md:w-7 md:h-7 bg-amber-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(245,158,11,0.8)] animate-float-pin delay-300 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 35%; left: 18%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('chitharalDetail'), 300)" class="relative z-10 w-5 h-5 md:w-7 md:h-7 bg-green-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(34,197,94,0.8)] animate-float-pin delay-100 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
-                <div class="absolute group z-20" style="top: 80%; left: 45%;"><button onclick="closeModal('sensoryMapModal'); setTimeout(() => switchView('muttomDetail'), 300)" class="relative z-10 w-5 h-5 md:w-7 md:h-7 bg-amber-500 rounded-full border-[3px] border-[#F5EFE6] shadow-[0_0_15px_rgba(245,158,11,0.8)] animate-float-pin delay-200 hover:scale-125 transition-transform cursor-pointer after:content-[''] after:absolute after:-inset-4"></button></div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252904.5369650058!2d77.2917!3d8.0883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b04ed3d2a08d28d%3A0x7d4982a5c5d5a71!2sKanyakumari%20District%2C%20Tamil%20Nadu!5e1!3m2!1sen!2sin!4v1710670000000!5m2!1sen!2sin" class="absolute inset-0 w-full h-full opacity-80 pointer-events-auto z-10 filter contrast-125 saturate-110" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
                 <!-- Live Routing Portal (Map Overlay) -->
                 <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-xl pointer-events-auto">
@@ -2373,7 +1572,7 @@
                 <div class="flex gap-3 md:gap-4 max-w-[90%] md:max-w-[85%]">
                     <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white shrink-0 shadow-md">✨</div>
                     <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-amber-200 text-stone-800 text-sm md:text-base leading-relaxed">
-                        Hi! I'm your VAISH'S AI Travel Assistant. I can help you plan a customized, accessible itinerary for Kanyakumari. <br><br>Tell me about your trip—how many days are you staying, and do you have any specific mobility or sensory requirements?
+                        Hi! I'm your TNWISE AI Travel Assistant. I can help you plan a customized, accessible itinerary for Kanyakumari. <br><br>Tell me about your trip—how many days are you staying, and do you have any specific mobility or sensory requirements?
                     </div>
                 </div>
             </div>
@@ -2422,13 +1621,197 @@
         </div>
     </div>
 
+    <!-- Custom Notification Banner -->
+    <div id="customNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] transform transition-all duration-300 translate-y-24 opacity-0 bg-stone-900 text-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 w-max max-w-[90vw]">
+        <span id="notif-icon" class="text-xl">⚠️</span>
+        <p id="notif-text" class="text-sm font-bold truncate">Notification</p>
+    </div>
 
     <!-- ========================================== -->
     <!-- JAVASCRIPT LOGIC                           -->
     <!-- ========================================== -->
     <script>
         // ------------------------------------
-        // ACCESSIBILITY LOGIC
+        // CUSTOM NOTIFICATION SYSTEM
+        // ------------------------------------
+        function showNotification(message, icon = '⚠️') {
+            const notif = document.getElementById('customNotification');
+            const notifText = document.getElementById('notif-text');
+            const notifIcon = document.getElementById('notif-icon');
+            if (notif && notifText && notifIcon) {
+                notifText.innerText = message;
+                notifIcon.innerText = icon;
+                notif.classList.remove('translate-y-24', 'opacity-0');
+                setTimeout(() => {
+                    notif.classList.add('translate-y-24', 'opacity-0');
+                }, 4000);
+            } else {
+                console.log("Notification:", message); 
+            }
+        }
+
+        // ------------------------------------
+        // GLOBAL VOICE ASSISTANT
+        // ------------------------------------
+        let globalSpeechRec;
+        let isGlobalListening = false;
+
+        function initGlobalVoice() {
+            if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) return null;
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const rec = new SpeechRec();
+            rec.continuous = false;
+            rec.interimResults = false;
+            rec.lang = 'en-US';
+
+            rec.onstart = function() {
+                isGlobalListening = true;
+                const desktopBtn = document.getElementById('global-voice-btn');
+                const mobileBtn = document.getElementById('global-voice-btn-mobile');
+                if(desktopBtn) desktopBtn.innerHTML = '🔴';
+                if(mobileBtn) mobileBtn.innerHTML = '🔴 Listening...';
+                speakFeedback("Listening for command.");
+            };
+
+            rec.onresult = function(event) {
+                const command = event.results[0][0].transcript.toLowerCase();
+                console.log("Voice Command:", command);
+                processVoiceCommand(command);
+            };
+
+            rec.onerror = function(event) {
+                console.error("Voice error:", event.error);
+                if (event.error === 'not-allowed') {
+                    showNotification("Microphone access blocked. Please allow permissions in your browser.", "🎤");
+                } else {
+                    showNotification("Voice error: " + event.error, "❌");
+                }
+                resetGlobalVoiceUI();
+            };
+
+            rec.onend = function() {
+                resetGlobalVoiceUI();
+            };
+            return rec;
+        }
+
+        function resetGlobalVoiceUI() {
+            isGlobalListening = false;
+            const desktopBtn = document.getElementById('global-voice-btn');
+            const mobileBtn = document.getElementById('global-voice-btn-mobile');
+            if(desktopBtn) desktopBtn.innerHTML = '🎙️';
+            if(mobileBtn) mobileBtn.innerHTML = '🎙️ Voice Command';
+        }
+
+        function toggleGlobalVoiceCommand() {
+            if (!globalSpeechRec) {
+                globalSpeechRec = initGlobalVoice();
+                if (!globalSpeechRec) {
+                    showNotification("Voice recognition is not supported in this browser.", "❌");
+                    return;
+                }
+            }
+            
+            if (isGlobalListening) {
+                globalSpeechRec.stop();
+            } else {
+                try {
+                    globalSpeechRec.start();
+                } catch(e) {
+                    console.error("Speech recognition start error:", e);
+                    showNotification("Error starting microphone. Check permissions.", "❌");
+                }
+            }
+        }
+
+        function speakFeedback(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function processVoiceCommand(command) {
+            if (command.includes('home')) {
+                speakFeedback("Navigating to Home");
+                switchView('home');
+            } else if (command.includes('hotel') || command.includes('accommodation') || command.includes('stay')) {
+                speakFeedback("Opening Hotels Directory");
+                switchView('hotels');
+            } else if (command.includes('guide') || command.includes('expert')) {
+                speakFeedback("Opening Guides Directory");
+                switchView('guides');
+            } else if (command.includes('travel') || command.includes('transport') || command.includes('bus') || command.includes('train')) {
+                speakFeedback("Opening Travel Booking");
+                switchView('travel');
+            } else if (command.includes('emergency') || command.includes('help') || command.includes('hospital') || command.includes('police')) {
+                speakFeedback("Opening Emergency Services");
+                switchView('emergency');
+            } else if (command.includes('translate') || command.includes('translator') || command.includes('language')) {
+                speakFeedback("Opening Voice Translator");
+                switchView('translator');
+            } else if (command.includes('map') || command.includes('sensory') || command.includes('location')) {
+                speakFeedback("Opening Sensory Map");
+                openModal('sensoryMapModal');
+            } else {
+                speakFeedback("Command not recognized. Try saying Hotels, Guides, or Map.");
+            }
+        }
+
+        // ------------------------------------
+        // READ ALOUD ON HOVER
+        // ------------------------------------
+        let isReadAloudActive = false;
+        let currentHoverElement = null;
+
+        function toggleReadAloud() {
+            if (!('speechSynthesis' in window)) {
+                showNotification("Text-to-speech is not supported in this browser.", "❌");
+                return;
+            }
+
+            isReadAloudActive = !isReadAloudActive;
+            const desktopBtn = document.getElementById('read-aloud-btn');
+            const mobileBtn = document.getElementById('read-aloud-btn-mobile');
+            
+            if (isReadAloudActive) {
+                if(desktopBtn) desktopBtn.classList.replace('bg-[#F5EFE6]', 'bg-amber-300');
+                if(mobileBtn) mobileBtn.classList.replace('bg-white', 'bg-amber-300');
+                showNotification("Read Aloud active. Point at text to hear it.", "🔊");
+            } else {
+                if(desktopBtn) desktopBtn.classList.replace('bg-amber-300', 'bg-[#F5EFE6]');
+                if(mobileBtn) mobileBtn.classList.replace('bg-amber-300', 'bg-white');
+                window.speechSynthesis.cancel();
+                currentHoverElement = null;
+                showNotification("Read Aloud disabled.", "🔇");
+            }
+        }
+
+        document.addEventListener('mouseover', function(e) {
+            if (!isReadAloudActive) return;
+            
+            const validTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'A', 'LABEL', 'LI'];
+            const target = e.target;
+
+            if (validTags.includes(target.tagName)) {
+                if (currentHoverElement !== target) {
+                    currentHoverElement = target;
+                    const textToRead = target.innerText || target.textContent;
+                    
+                    if (textToRead && textToRead.trim() !== '') {
+                        window.speechSynthesis.cancel(); // Stop previous speech
+                        const utterance = new SpeechSynthesisUtterance(textToRead.trim());
+                        utterance.rate = 1.0; 
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+            }
+        });
+
+        // ------------------------------------
+        // ACCESSIBILITY & MAP LAYER LOGIC
         // ------------------------------------
         function toggleColorCorrection() {
             document.body.classList.toggle('color-corrected');
@@ -2554,17 +1937,17 @@
                     },
                     (error) => {
                         if (btn) btn.innerHTML = originalText;
-                        alert("Could not access your location. Opening route with destination only.");
+                        showNotification("Could not access location. Opening destination map.", "📍");
                         const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destinationStr)}`;
-                        window.open(url, '_blank');
+                        setTimeout(() => window.open(url, '_blank'), 1000);
                     },
                     { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
                 );
             } else {
                 if (btn) btn.innerHTML = originalText;
-                alert("Geolocation is not supported by this browser.");
+                showNotification("Geolocation not supported. Opening destination map.", "📍");
                 const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destinationStr)}`;
-                window.open(url, '_blank');
+                setTimeout(() => window.open(url, '_blank'), 1000);
             }
         }
 
@@ -2614,37 +1997,28 @@
         // ------------------------------------
         // GEMINI API & CHATBOT
         // ------------------------------------
-       // You can remove the old const apiKey = ""; line completely.
+        const apiKey = ""; 
 
-async function fetchGeminiAPI(prompt, retries = 5) {
-    // Point to your Vercel serverless function
-    const url = `/api/gemini`; 
-    // Match the payload your gemini.js file expects
-    const payload = { prompt: prompt }; 
+        async function fetchGeminiAPI(prompt, retries = 5) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
 
-    let delay = 1000;
-    for (let i = 0; i < retries; i++) {
-        try {
-            const response = await fetch(url, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify(payload) 
-            });
-            
-            const data = await response.json();
-            
-            if (!response.ok) throw new Error(data.error || `HTTP error! status: ${response.status}`);
-            
-            // Your gemini.js backend returns { text: "..." }, so we extract just the text
-            return data.text;
-            
-        } catch (error) {
-            if (i === retries - 1) throw error;
-            await new Promise(res => setTimeout(res, delay));
-            delay *= 2;
+            let delay = 1000;
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    if (data.error) throw new Error(data.error.message);
+                    return data.candidates[0].content.parts[0].text;
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
         }
-    }
-}
+
         function formatMarkdown(text) {
             let html = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-stone-900 font-black">$1</strong>').replace(/\n/g, '<br>');
             return `<div>${html}</div>`;
@@ -2788,7 +2162,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
         }
 
         function toggleTranslatorRecording() {
-            if (!speechRecognition) return alert("Browser not supported.");
+            if (!speechRecognition) return showNotification("Browser not supported.", "❌");
             if (isTranslating) speechRecognition.stop();
             else speechRecognition.start();
         }
@@ -2932,7 +2306,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
                 }
                 renderPendingGuides();
                 
-                alert('Application submitted! Pending review in the Admin Portal.');
+                showNotification('Application submitted! Pending review.', "✅");
                 closeModal('guideJoinModal');
                 
                 if (typeof form.reset === 'function') form.reset(); 
@@ -3001,7 +2375,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
                 }
                 
                 renderPendingGuides();
-                alert(`Approved ${g.name}. Live in Guide Directory.`);
+                showNotification(`Approved ${g.name}. Live in Directory.`, "✅");
             }
         }
 
@@ -3029,7 +2403,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
                 exp: 3, bio: "TNWISE Verified Staff Guide." 
             });
             if (typeof form.reset === 'function') form.reset(); 
-            alert("Guide Added!");
+            showNotification("Guide Added successfully!", "✅");
         }
 
         function publishGuideCard(g) {
@@ -3095,7 +2469,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
             const container = document.getElementById('hospitals-container');
             if (container) container.insertAdjacentHTML('afterbegin', newHospHtml);
             if (typeof form.reset === 'function') form.reset(); 
-            alert("Hospital Added!");
+            showNotification("Hospital Added successfully!", "✅");
         }
 
         // ------------------------------------
@@ -3134,7 +2508,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
             renderGuideDashboard();
             
             closeModal('paymentModal');
-            alert(`Payment Successful!\nBooking ID: ${activeBookingSession.id}\nYour guide, ${activeBookingSession.guideName}, has been notified and will meet you at the requested location.`);
+            showNotification(`Payment Successful! Booking ID: ${activeBookingSession.id}`, "✅");
             
             if (e.target && typeof e.target.reset === 'function') e.target.reset();
             activeBookingSession = null;
