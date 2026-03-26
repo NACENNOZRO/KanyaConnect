@@ -83,6 +83,7 @@
             <div class="hidden lg:flex items-center gap-4 xl:gap-6">
                 <button onclick="switchView('home')" class="text-stone-600 hover:text-stone-900 text-[11px] xl:text-xs font-bold tracking-widest uppercase transition-colors" id="nav-home">Home</button>
                 <button onclick="switchView('hotels')" class="text-stone-600 hover:text-stone-900 text-[11px] xl:text-xs font-bold tracking-widest uppercase transition-colors" id="nav-hotels">Hotels</button>
+                <button onclick="switchView('cafes')" class="text-stone-600 hover:text-stone-900 text-[11px] xl:text-xs font-bold tracking-widest uppercase transition-colors" id="nav-cafes">Cafes</button>
                 <button onclick="switchView('guides')" class="text-stone-600 hover:text-stone-900 text-[11px] xl:text-xs font-bold tracking-widest uppercase transition-colors" id="nav-guides">Guides</button>
                 <button onclick="switchView('travel')" class="text-stone-600 hover:text-stone-900 text-[11px] xl:text-xs font-bold tracking-widest uppercase transition-colors" id="nav-travel">Travel</button>
                 <button onclick="switchView('emergency')" class="text-red-600 hover:text-red-800 text-[11px] xl:text-xs font-black tracking-widest uppercase transition-colors" id="nav-emergency">Emergency</button>
@@ -138,6 +139,7 @@
             <div class="flex flex-col px-6 py-5 space-y-4">
                  <button onclick="switchView('home'); toggleMobileMenu()" class="text-left text-stone-800 font-bold uppercase tracking-wider text-sm">Home</button>
                  <button onclick="switchView('hotels'); toggleMobileMenu()" class="text-left text-stone-800 font-bold uppercase tracking-wider text-sm">Hotels</button>
+                 <button onclick="switchView('cafes'); toggleMobileMenu()" class="text-left text-stone-800 font-bold uppercase tracking-wider text-sm">Cafes</button>
                  <button onclick="switchView('guides'); toggleMobileMenu()" class="text-left text-stone-800 font-bold uppercase tracking-wider text-sm">Guides</button>
                  <button onclick="switchView('travel'); toggleMobileMenu()" class="text-left text-stone-800 font-bold uppercase tracking-wider text-sm">Travel</button>
                  <button onclick="switchView('emergency'); toggleMobileMenu()" class="text-left text-red-600 font-bold uppercase tracking-wider text-sm">Emergency</button>
@@ -199,6 +201,9 @@
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
                     <button onclick="openModal('sensoryMapModal')" class="w-full sm:w-auto px-8 py-4 bg-amber-500 hover:bg-amber-400 text-stone-900 text-lg font-bold rounded-full shadow-xl transition-transform hover:-translate-y-1 border border-amber-300">
                         Explore the Sensory Map
+                    </button>
+                    <button onclick="switchView('cafes')" class="w-full sm:w-auto px-8 py-4 bg-orange-500 hover:bg-orange-400 text-white text-lg font-bold rounded-full shadow-xl transition-transform hover:-translate-y-1 border border-orange-400">
+                        Cafe Centers
                     </button>
                     <button onclick="switchView('travel')" class="w-full sm:w-auto px-8 py-4 bg-stone-900/60 hover:bg-stone-900 text-white backdrop-blur-md text-lg font-bold border border-white/30 rounded-full transition-transform hover:-translate-y-1 shadow-lg">
                         Plan Transport
@@ -873,6 +878,132 @@
     </div>
 
     <!-- ========================================== -->
+    <!-- VIEW: CAFE CENTERS                         -->
+    <!-- ========================================== -->
+    <div id="cafesView" class="hidden flex-1 w-full flex-col pt-24 bg-[#EAE0D5]">
+        <section class="pt-8 pb-12 px-6 max-w-7xl mx-auto w-full reveal-fade-up">
+            <div class="max-w-2xl border-b border-[#DBCFBC] pb-8 mb-8">
+                <div class="inline-block mb-4 border border-orange-600/30 bg-orange-200/50 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <span class="text-orange-800 font-bold tracking-[0.1em] text-xs uppercase">Accessible Dining</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-stone-900 mb-4 leading-tight">Nearby Grand <br><span class="text-orange-700">Cafe Centers.</span></h2>
+                <p class="text-stone-600 text-lg font-medium leading-relaxed">
+                    Relax and recharge at these verified accessible cafes, offering inclusive seating, sensory-friendly hours, and diverse culinary options.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cafe Card 1 -->
+                <div class="bg-[#F5EFE6] rounded-3xl border border-[#DBCFBC] shadow-lg overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-xl">
+                    <div class="h-48 overflow-hidden bg-stone-300 relative">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Ocean Brew Cafe" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold shadow">⭐ 4.8</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-stone-900 mb-1">Ocean Brew Cafe</h3>
+                        <p class="text-sm font-bold text-stone-500 mb-4">📍 Sea View Promenade (400m away)</p>
+                        <p class="text-stone-700 text-sm mb-4 flex-1">A grand coastal cafe featuring wide aisles for mobility aids, braille menus, and a designated quiet dining zone.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 rounded text-[10px] font-bold uppercase">♿ Ramp Access</span>
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">🤫 Quiet Zone</span>
+                        </div>
+                        <button onclick="getRouteTo('Ocean Brew Cafe, Kanyakumari')" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">Navigate</button>
+                    </div>
+                </div>
+                
+                <!-- Cafe Card 2 -->
+                <div class="bg-[#F5EFE6] rounded-3xl border border-[#DBCFBC] shadow-lg overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-xl">
+                    <div class="h-48 overflow-hidden bg-stone-300 relative">
+                        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80" alt="Heritage Roasters" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold shadow">⭐ 4.6</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-stone-900 mb-1">Heritage Roasters</h3>
+                        <p class="text-sm font-bold text-stone-500 mb-4">📍 Near Gandhi Mandapam (1.2km away)</p>
+                        <p class="text-stone-700 text-sm mb-4 flex-1">Specialty coffee center with step-free entry, accessible restrooms, and visual ordering systems for the hearing impaired.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 rounded text-[10px] font-bold uppercase">♿ Step-Free</span>
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">🤟 Visual Menu</span>
+                        </div>
+                        <button onclick="getRouteTo('Gandhi Mandapam, Kanyakumari')" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">Navigate</button>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 3 -->
+                <div class="bg-[#F5EFE6] rounded-3xl border border-[#DBCFBC] shadow-lg overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-xl">
+                    <div class="h-48 overflow-hidden bg-stone-300 relative">
+                        <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=800&q=80" alt="Sunrise Bakery & Cafe" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold shadow">⭐ 4.9</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-stone-900 mb-1">Sunrise Bakery</h3>
+                        <p class="text-sm font-bold text-stone-500 mb-4">📍 Beach Road (800m away)</p>
+                        <p class="text-stone-700 text-sm mb-4 flex-1">Spacious indoor-outdoor cafe featuring low-height service counters and staff trained in basic Indian Sign Language.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 rounded text-[10px] font-bold uppercase">♿ Low Counter</span>
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">🤟 ISL Staff</span>
+                        </div>
+                        <button onclick="getRouteTo('Sunset Point Beach, Kanyakumari')" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">Navigate</button>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 4 -->
+                <div class="bg-[#F5EFE6] rounded-3xl border border-[#DBCFBC] shadow-lg overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-xl">
+                    <div class="h-48 overflow-hidden bg-stone-300 relative">
+                        <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=800&q=80" alt="The Nagercoil Retreat" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold shadow">⭐ 4.5</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-stone-900 mb-1">The Nagercoil Retreat</h3>
+                        <p class="text-sm font-bold text-stone-500 mb-4">📍 Highway Transit Hub (15km away)</p>
+                        <p class="text-stone-700 text-sm mb-4 flex-1">A spacious highway rest stop cafe with wide double-door entryways and fully compliant roll-in restrooms.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 rounded text-[10px] font-bold uppercase">♿ Roll-in Restroom</span>
+                            <span class="bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 rounded text-[10px] font-bold uppercase">♿ Wide Doors</span>
+                        </div>
+                        <button onclick="getRouteTo('Nagercoil, Tamil Nadu')" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">Navigate</button>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 5 -->
+                <div class="bg-[#F5EFE6] rounded-3xl border border-[#DBCFBC] shadow-lg overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-xl">
+                    <div class="h-48 overflow-hidden bg-stone-300 relative">
+                        <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=80" alt="Cape Comorin Coffee House" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold shadow">⭐ 4.7</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-stone-900 mb-1">Cape Comorin Coffee House</h3>
+                        <p class="text-sm font-bold text-stone-500 mb-4">📍 Near View Tower (600m away)</p>
+                        <p class="text-stone-700 text-sm mb-4 flex-1">Traditional South Indian filter coffee house equipped with tactile braille menus and well-lit, high-contrast seating areas.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">📖 Braille Menu</span>
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">💡 High Contrast</span>
+                        </div>
+                        <button onclick="getRouteTo('Kanyakumari View Tower, Kanyakumari')" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">Navigate</button>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 6 -->
+                <div class="bg-[#F5EFE6] rounded-3xl border border-[#DBCFBC] shadow-lg overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-xl">
+                    <div class="h-48 overflow-hidden bg-stone-300 relative">
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Tranquil Bites" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold shadow">⭐ 4.9</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-stone-900 mb-1">Tranquil Bites</h3>
+                        <p class="text-sm font-bold text-stone-500 mb-4">📍 Hidden Lane, Beach Road (1km away)</p>
+                        <p class="text-stone-700 text-sm mb-4 flex-1">A neurodivergent-friendly space designed with soft, natural lighting, acoustic dampening panels, and a strict no-loud-music policy.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">🤫 Acoustic Dampening</span>
+                            <span class="bg-stone-200 text-stone-800 border border-stone-300 px-2 py-1 rounded text-[10px] font-bold uppercase">💡 Soft Lighting</span>
+                        </div>
+                        <button onclick="getRouteTo('Beach Road, Kanyakumari')" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">Navigate</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================================== -->
     <!-- VIEW: GUIDES DIRECTORY / PORTAL            -->
     <!-- ========================================== -->
     <div id="guidesView" class="hidden flex-1 w-full flex-col pt-24 bg-[#EAE0D5]">
@@ -1403,6 +1534,10 @@
                         <div><h3 class="text-xl font-bold text-stone-900 mb-2">Accessible Hotels</h3></div>
                         <span class="text-blue-700 font-bold text-sm mt-4">Search Hotels ➔</span>
                     </button>
+                    <button onclick="closeModal('platformModal'); setTimeout(() => switchView('cafes'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-orange-500 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
+                        <div><h3 class="text-xl font-bold text-stone-900 mb-2">Grand Cafe Centers</h3></div>
+                        <span class="text-orange-700 font-bold text-sm mt-4">Find Dining ➔</span>
+                    </button>
                     <button onclick="closeModal('platformModal'); setTimeout(() => switchView('travel'), 300)" class="text-left group bg-[#F5EFE6] border border-[#DBCFBC] hover:border-indigo-500 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between min-h-[180px]">
                         <div><h3 class="text-xl font-bold text-stone-900 mb-2">Transport Booking</h3></div>
                         <span class="text-indigo-700 font-bold text-sm mt-4">TNSTC & Trains ➔</span>
@@ -1448,7 +1583,18 @@
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252904.5369650058!2d77.2917!3d8.0883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b04ed3d2a08d28d%3A0x7d4982a5c5d5a71!2sKanyakumari%20District%2C%20Tamil%20Nadu!5e1!3m2!1sen!2sin!4v1710670000000!5m2!1sen!2sin" class="absolute inset-0 w-full h-full opacity-80 pointer-events-auto z-10 filter contrast-125 saturate-110" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
                 <!-- Live Routing Portal (Map Overlay) -->
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-xl pointer-events-auto">
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-xl pointer-events-auto flex flex-col gap-2">
+                    
+                    <!-- Quick Amenities Nav -->
+                    <div class="flex justify-start md:justify-end gap-2 px-1">
+                        <button onclick="getRouteTo('Cafe near ' + document.getElementById('route-destination').value)" class="bg-orange-100/95 hover:bg-orange-200 text-orange-900 px-3 py-2 rounded-xl text-xs font-bold shadow-lg transition-transform hover:-translate-y-0.5 flex items-center gap-1.5 border border-orange-300 backdrop-blur-md">
+                            ☕ Nearby Cafe
+                        </button>
+                        <button onclick="getRouteTo('Petrol Station near ' + document.getElementById('route-destination').value)" class="bg-stone-200/95 hover:bg-stone-300 text-stone-900 px-3 py-2 rounded-xl text-xs font-bold shadow-lg transition-transform hover:-translate-y-0.5 flex items-center gap-1.5 border border-stone-400 backdrop-blur-md">
+                            ⛽ Petrol Station
+                        </button>
+                    </div>
+
                     <div class="bg-[#F5EFE6]/95 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-2xl border border-[#DBCFBC] flex flex-col md:flex-row gap-3 items-center">
                         <div class="flex-1 w-full">
                             <p class="text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-1 pl-1">Live Routing Portal</p>
@@ -1577,10 +1723,13 @@
                 </div>
             </div>
             <div class="p-4 md:p-6 border-t border-[#DBCFBC] bg-[#F5EFE6] shrink-0">
-                <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-3 relative">
-                    <input type="text" id="chat-input" placeholder="E.g., I need a 2-day wheelchair-friendly plan..." autocomplete="off" class="flex-1 px-5 py-4 rounded-full border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-amber-500 outline-none text-sm font-medium shadow-inner transition-shadow">
-                    <button type="submit" id="chat-submit-btn" class="w-14 h-14 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-400 flex items-center justify-center shadow-lg transition-transform hover:-translate-y-0.5 shrink-0">
-                        <svg class="w-6 h-6 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-2 md:gap-3 relative">
+                    <button type="button" onclick="toggleChatDictation()" id="chat-dictation-btn" class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white border border-[#DBCFBC] text-stone-500 hover:text-amber-600 flex items-center justify-center shadow-sm transition-colors shrink-0 text-xl" title="Dictate Message">
+                        🎤
+                    </button>
+                    <input type="text" id="chat-input" placeholder="E.g., I need a 2-day wheelchair-friendly plan..." autocomplete="off" class="flex-1 px-4 md:px-5 py-3 md:py-4 rounded-full border border-[#DBCFBC] bg-white focus:ring-2 focus:ring-amber-500 outline-none text-sm font-medium shadow-inner transition-shadow">
+                    <button type="submit" id="chat-submit-btn" class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-400 flex items-center justify-center shadow-lg transition-transform hover:-translate-y-0.5 shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                     </button>
                 </form>
             </div>
@@ -1690,7 +1839,7 @@
             };
 
             rec.onend = function() {
-                resetGlobalVoiceUI();
+                // UI reset is now handled in processVoiceCommand's finally block to account for AI processing time
             };
             return rec;
         }
@@ -1733,13 +1882,68 @@
             }
         }
 
-        function processVoiceCommand(command) {
+        async function processVoiceCommand(command) {
+            const desktopBtn = document.getElementById('global-voice-btn');
+            const mobileBtn = document.getElementById('global-voice-btn-mobile');
+            if(desktopBtn) desktopBtn.innerHTML = '🤖';
+            if(mobileBtn) mobileBtn.innerHTML = '🤖 Thinking...';
+
+            try {
+                // AI Intent Recognition Prompt
+                const prompt = `Analyze this voice command from a tourist app: "${command}". 
+Determine their navigation intent. 
+Respond ONLY with a valid JSON object in this exact format: {"action": "target_view"}
+Where "target_view" must be exactly one of these strings: "home", "hotels", "cafes", "guides", "travel", "emergency", "translator", "map", "unknown".`;
+                
+                const response = await fetchGeminiAPI(prompt);
+                const cleanJson = response.replace(/```json/g, '').replace(/```/g, '').trim();
+                const intent = JSON.parse(cleanJson);
+
+                if (intent.action === 'home') {
+                    speakFeedback("Navigating to Home");
+                    switchView('home');
+                } else if (intent.action === 'hotels') {
+                    speakFeedback("Opening Hotels Directory");
+                    switchView('hotels');
+                } else if (intent.action === 'cafes') {
+                    speakFeedback("Opening Cafe Centers");
+                    switchView('cafes');
+                } else if (intent.action === 'guides') {
+                    speakFeedback("Opening Guides Directory");
+                    switchView('guides');
+                } else if (intent.action === 'travel') {
+                    speakFeedback("Opening Travel Booking");
+                    switchView('travel');
+                } else if (intent.action === 'emergency') {
+                    speakFeedback("Opening Emergency Services");
+                    switchView('emergency');
+                } else if (intent.action === 'translator') {
+                    speakFeedback("Opening Voice Translator");
+                    switchView('translator');
+                } else if (intent.action === 'map') {
+                    speakFeedback("Opening Sensory Map");
+                    openModal('sensoryMapModal');
+                } else {
+                    fallbackProcessVoiceCommand(command);
+                }
+            } catch (error) {
+                console.error("AI Intent parsing failed:", error);
+                fallbackProcessVoiceCommand(command);
+            } finally {
+                resetGlobalVoiceUI();
+            }
+        }
+
+        function fallbackProcessVoiceCommand(command) {
             if (command.includes('home')) {
                 speakFeedback("Navigating to Home");
                 switchView('home');
             } else if (command.includes('hotel') || command.includes('accommodation') || command.includes('stay')) {
                 speakFeedback("Opening Hotels Directory");
                 switchView('hotels');
+            } else if (command.includes('cafe') || command.includes('coffee') || command.includes('dining') || command.includes('food')) {
+                speakFeedback("Opening Cafe Centers");
+                switchView('cafes');
             } else if (command.includes('guide') || command.includes('expert')) {
                 speakFeedback("Opening Guides Directory");
                 switchView('guides');
@@ -1833,7 +2037,7 @@
 
         function switchView(viewName) {
             const views = [
-                'home', 'guides', 'hotels', 'travel', 'emergency', 'translator', 'login', 'admin', 
+                'home', 'guides', 'hotels', 'cafes', 'travel', 'emergency', 'translator', 'login', 'admin', 
                 'rockDetail', 'palaceDetail', 'waterfallDetail', 'vattakottaiDetail', 'beachDetail', 
                 'mathoorDetail', 'churchDetail', 'chitharalDetail', 'muttomDetail', 'guideDashboard'
             ];
@@ -2028,6 +2232,7 @@ async function fetchGeminiAPI(prompt, retries = 5) {
         }
     }
 }
+
         function formatMarkdown(text) {
             let html = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-stone-900 font-black">$1</strong>').replace(/\n/g, '<br>');
             return `<div>${html}</div>`;
@@ -2065,6 +2270,9 @@ async function fetchGeminiAPI(prompt, retries = 5) {
             const inputField = document.getElementById('chat-input');
             const userText = inputField.value.trim();
             if(!userText) return;
+
+            // Stop dictation if running
+            if (typeof stopChatDictation === 'function') stopChatDictation();
 
             const chatHistory = document.getElementById('chat-history');
             const submitBtn = document.getElementById('chat-submit-btn');
@@ -2125,6 +2333,81 @@ async function fetchGeminiAPI(prompt, retries = 5) {
                 inputField.focus();
                 chatHistory.scrollTop = chatHistory.scrollHeight;
             }
+        }
+
+        // ------------------------------------
+        // CHAT DICTATION (SPEECH TO TEXT)
+        // ------------------------------------
+        let chatDictationRec;
+        let isChatDictating = false;
+
+        function toggleChatDictation() {
+            if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+                showNotification("Speech to text is not supported in this browser.", "❌");
+                return;
+            }
+
+            const btn = document.getElementById('chat-dictation-btn');
+            const input = document.getElementById('chat-input');
+
+            if (isChatDictating) {
+                if (chatDictationRec) chatDictationRec.stop();
+                return;
+            }
+
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            chatDictationRec = new SpeechRec();
+            chatDictationRec.continuous = false;
+            chatDictationRec.interimResults = true;
+            chatDictationRec.lang = 'en-US';
+
+            let finalTranscript = '';
+            if (input) input.value = ''; // Clear previous text on new dictation start
+
+            chatDictationRec.onstart = function() {
+                isChatDictating = true;
+                if(btn) btn.classList.add('bg-red-100', 'text-red-600', 'border-red-300', 'animate-pulse');
+                if(input) input.placeholder = "Listening... Speak now";
+            };
+
+            chatDictationRec.onresult = function(event) {
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                if(input) input.value = finalTranscript + interimTranscript;
+            };
+
+            chatDictationRec.onerror = function(event) {
+                console.error("Dictation error:", event.error);
+                if (event.error === 'not-allowed') {
+                    showNotification("Microphone access blocked.", "🎤");
+                }
+                stopChatDictation();
+            };
+
+            chatDictationRec.onend = function() {
+                stopChatDictation();
+            };
+
+            try {
+                chatDictationRec.start();
+            } catch(e) {
+                console.error(e);
+                stopChatDictation();
+            }
+        }
+
+        function stopChatDictation() {
+            isChatDictating = false;
+            const btn = document.getElementById('chat-dictation-btn');
+            const input = document.getElementById('chat-input');
+            if(btn) btn.classList.remove('bg-red-100', 'text-red-600', 'border-red-300', 'animate-pulse');
+            if(input && input.placeholder === "Listening... Speak now") input.placeholder = "E.g., I need a 2-day wheelchair-friendly plan...";
         }
 
         // ------------------------------------
